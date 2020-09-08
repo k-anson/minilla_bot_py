@@ -1,13 +1,12 @@
 # import discord
 from discord.ext import commands
-from discord.ext.commands import Context
 
 from config import config
-from database import create_db_session
+from database import Database
 from commands.cal_commands import create_cal_commands
 
 client = commands.Bot(command_prefix='!')
-db = create_db_session(config)
+db = Database(config)
 
 @client.event
 async def on_ready():

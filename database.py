@@ -8,9 +8,10 @@ class Calendar(Base):
   __tablename__= 'calendars'
 
   id = Column('id', Integer, primary_key=True)
-  channel_id = Column('channel_id', Integer)
-  events_channel_id = Column('events_channel_id', Integer)
-  message_id = Column('message_id', Integer)
+  guild_id = Column('guild_id', String(length=18))
+  channel_id = Column('channel_id', String(length=18))
+  events_channel_id = Column('events_channel_id', String(length=18))
+  message_id = Column('message_id', String(length=18))
 
 class Event(Base):
   __tablename__= 'events'
@@ -27,7 +28,7 @@ class Database:
   Event = Event
 
   def __init__(self, config):
-    engine = create_engine(f'mysql+pymysql://{config["DATABASE_USERNAME"]}:{config["DATABASE_PASSWORD"]}@{config["DATABASE_HOST"]}:{config["DATABASE_PORT"]}/{config["DATABASE_NAME"]}', echo=True)
+    engine = create_engine(f'mysql+pymysql://{config["DATABASE_USERNAME"]}:{config["DATABASE_PASSWORD"]}@{config["DATABASE_HOST"]}:{config["DATABASE_PORT"]}/{config["DATABASE_NAME"]}')
     Base.metadata.create_all(bind=engine)
     Session = sessionmaker(bind=engine)
 
