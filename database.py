@@ -7,20 +7,24 @@ Base = declarative_base()
 class Calendar(Base):
   __tablename__= 'calendars'
 
-  id = Column('id', Integer, primary_key=True)
-  guild_id = Column('guild_id', String(length=18))
-  channel_id = Column('channel_id', String(length=18))
-  events_channel_id = Column('events_channel_id', String(length=18))
-  message_id = Column('message_id', String(length=18))
+  id = Column(Integer, primary_key=True)
+  guild_id = Column(String(length=18))
+  channel_id = Column(String(length=18))
+  events_channel_id = Column(String(length=18))
+  message_id = Column(String(length=18))
+  events = relationship('Event')
 
 class Event(Base):
   __tablename__= 'events'
 
-  id = Column('id', Integer, primary_key=True)
-  name = Column('name', String(length=255))
-  date = Column('date', DateTime)
-  description = Column('description', String(length=255))
-  message_id = Column('message_id', Integer)
+  id = Column(Integer, primary_key=True)
+  name = Column(String(length=255))
+  date = Column(DateTime)
+  description = Column(String(length=255))
+  message_id = Column(String(length=18))
+  calendar_id = Column(Integer, ForeignKey('calendars.id'))
+  calendar = relationship('Calendar', back_populates='events')
+  owner_id = Column(Integer, ForeignKey('attendees.id'))
 
 class Database:
   session:Session
